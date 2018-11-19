@@ -1,15 +1,15 @@
 import processing.TableModification;
-import processing.User;
+import processing.UserDemo;
 
 public class Main {
-        public static void main(String[] args) throws NoSuchFieldException {
+    public static void main(String[] args) throws NoSuchFieldException {
         /*try {
             findEntity("src\\main\\java\\processing");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }*/
-            System.out.println(TableModification.getTableName(new User()));
-            System.out.println(TableModification.getColumnsNames(new User()));
-            System.out.println(TableModification.getColumnsTypes(new User()));
+        TableModification.createTable(new UserDemo());
+       /* System.out.println(TableModification.getTableName(new UserDemo()));
+        System.out.println(TableModification.getColumnsNamesAndTypes(new UserDemo()));*/
     }
 }
