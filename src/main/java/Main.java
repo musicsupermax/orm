@@ -1,15 +1,13 @@
-import processing.TableModification;
-import processing.UserDemo;
+import database.DatabaseManager;
+import processing.TableManager;
+
+import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws NoSuchFieldException {
-        /*try {
-            findEntity("src\\main\\java\\processing");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
-        TableModification.createTable(new UserDemo());
-       /* System.out.println(TableModification.getTableName(new UserDemo()));
-        System.out.println(TableModification.getColumnsNamesAndTypes(new UserDemo()));*/
+    public static void main(String[] args) throws SQLException, IllegalAccessException {
+        DatabaseManager.createDatabase("demodata");
+        TableManager.createTable(new UserDemo());
+        TableManager.insertIntoTable(new UserDemo(5,"Hello", 28));
+        TableManager.dropTable("users");
     }
 }

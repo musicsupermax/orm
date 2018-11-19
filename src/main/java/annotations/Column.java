@@ -10,4 +10,6 @@ import java.lang.annotation.Target;
 public @interface Column {
     String value();
     String type();
+    boolean isAutoIncrement() default false;
+    boolean isNull() default false;
 }
