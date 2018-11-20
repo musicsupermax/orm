@@ -1,25 +1,35 @@
+package entities;
+
 import annotations.Column;
 import annotations.Id;
+import annotations.Select;
 import annotations.Table;
 
 @Table(name = "users")
-public class UserDemo {
+public class User {
 
     @Id
-    @Column(value = "id",type = "int")
+    @Select
+    @Column(name = "id",type = "int", isAutoIncrement = true)
     private int id;
 
-    @Column(value = "login", type = "varchar(50)")
+    @Select
+    @Column(name = "login", type = "varchar(50)")
     private String login;
 
-    @Column(value = "age", type = "int")
+    @Column(name = "age", type = "int")
     private int age;
 
-    public UserDemo() {
+    public User() {
     }
 
-    public UserDemo(int id, String login, int age) {
+    public User(int id, String login, int age) {
         this.id = id;
+        this.login = login;
+        this.age = age;
+    }
+
+    public User(String login, int age) {
         this.login = login;
         this.age = age;
     }

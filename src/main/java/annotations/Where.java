@@ -7,9 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
-    String name();
-    String type();
-    boolean isAutoIncrement() default false;
-    boolean isNull() default true;
+public @interface Where {
 }

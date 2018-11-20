@@ -1,4 +1,5 @@
 import database.DatabaseManager;
+import entities.User;
 import processing.TableManager;
 
 import java.sql.SQLException;
@@ -6,8 +7,8 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException, IllegalAccessException {
         DatabaseManager.createDatabase("demodata");
-        TableManager.createTable(new UserDemo());
-        TableManager.insertIntoTable(new UserDemo(5,"Hello", 28));
-        TableManager.dropTable("users");
+        TableManager.createTable(new User());
+        TableManager.insertIntoTable(new User("Hello", 28));
+        TableManager.select(new User());
     }
 }
