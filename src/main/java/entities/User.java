@@ -2,18 +2,15 @@ package entities;
 
 import annotations.Column;
 import annotations.Id;
-import annotations.Select;
 import annotations.Table;
 
 @Table(name = "users")
 public class User {
 
     @Id
-    @Select
-    @Column(name = "id",type = "int", isAutoIncrement = true)
+    @Column(name = "id", type = "int", isAutoIncrement = true)
     private int id;
 
-    @Select
     @Column(name = "login", type = "varchar(50)")
     private String login;
 
@@ -32,6 +29,10 @@ public class User {
     public User(String login, int age) {
         this.login = login;
         this.age = age;
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public int getId() {

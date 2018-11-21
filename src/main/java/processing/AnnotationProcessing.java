@@ -2,7 +2,6 @@ package processing;
 
 import annotations.Column;
 import annotations.Id;
-import annotations.Select;
 import annotations.Table;
 
 import java.lang.reflect.Field;
@@ -108,25 +107,5 @@ public class AnnotationProcessing {
             throw new NullPointerException();
         }
         return new String(primaryKey);
-    }
-
-    public static String getSelectValues(Object object){
-        StringBuilder selectBuilder = new StringBuilder();
-        if (object != null) {
-            Class<?> cl = object.getClass();
-            Field[] fields = cl.getDeclaredFields();
-            for (Field field : fields) {
-                if (field.isAnnotationPresent(Select.class) && field.isAnnotationPresent(Column.class)) {
-                    Column column = field.getAnnotation(Column.class);
-                    selectBuilder
-                            .append(column.name())
-                            .append(",");
-                }
-            }
-            selectBuilder.deleteCharAt(selectBuilder.lastIndexOf(","));
-        } else {
-            throw new NullPointerException();
-        }
-        return new String(selectBuilder);
     }
 }

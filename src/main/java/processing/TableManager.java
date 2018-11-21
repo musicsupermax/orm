@@ -2,10 +2,9 @@ package processing;
 
 import database.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static processing.AnnotationProcessing.*;
 
@@ -23,58 +22,56 @@ public class TableManager {
                     .append(",");
         }
         createTable.append(getPrimaryKey(object)).append(");");
-        updateQueryExecutor(new String(createTable));
+        executeUpdate(new String(createTable));
     }
 
     public static void dropTable(String tableName) {
         String dropQuery = "DROP TABLE " + tableName;
-        updateQueryExecutor(dropQuery);
+        executeUpdate(dropQuery);
     }
 
     public static void insertIntoTable(Object object) throws IllegalAccessException {
         String insertQuery = "INSERT INTO " + getTableName(object) + " ("
                 + getColumnsNames(object) + ") VALUES ("
                 + getFieldsValues(object) + ")";
-        updateQueryExecutor(insertQuery);
+        executeUpdate(insertQuery);
     }
 
-    public static void select(Object object) throws SQLException {
-        String tableName = getTableName(object);
-        String selectQuery = "SELECT " + getSelectValues(object) + " FROM " + tableName;
-        queryExecutor(selectQuery);
-        /*ResultSet resultSet = queryExecutor(selectQuery);
-        for (String element: getColumnsNames(object).split(",")){
-
-        }
-       *//* System.out.printf("%-20s%s%n", "id", "username");
-        System.out.println("-------------------------------");*//*
-       String colum = "";
-        while (resultSet.next()) {
-            System.out.println(resultSet.toString());
-            *//*int id = resultSet.getInt("id");
-            String name = resultSet.getString("username");
-            System.out.printf("%-20d%s%n", id, name);*//*
-        }*/
-    }
-
-    public static void selectAll(Object object) {
-        String tableName = getTableName(object);
-        String selectQuery = "SELECT * " + "FROM " + tableName;
-    }
-
-    private static void updateQueryExecutor(String query) {
+    public static void select() throws SQLException {
+        String selectQuery = SelectBuilder.getSelectResult();
         try (Connection connection = DatabaseManager.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            List<String> columnNames = new ArrayList<>();
+            for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                columnNames.add(resultSetMetaData.getColumnLabel(i));
+            }
+            while (resultSet.next()) {
+                List<Object> rowData = new ArrayList<>();
+                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                    rowData.add(resultSet.getObject(i));
+                }
+                System.out.println();
+                for (int colIndex = 0; colIndex < resultSetMetaData.getColumnCount(); colIndex++) {
+                    String objString = "";
+                    Object columnObject = rowData.get(colIndex);
+                    if (columnObject != null) {
+                        objString = columnObject.toString() + " ";
+                    }
+                    System.out.printf("  %s: %s%n",
+                            columnNames.get(colIndex), objString);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void queryExecutor(String query) {
+    private static void executeUpdate(String query) {
         try (Connection connection = DatabaseManager.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
