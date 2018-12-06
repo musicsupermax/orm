@@ -68,6 +68,10 @@ public class TableManager {
         }
     }
 
+    /**
+     * Execute update
+     * @param query
+     */
     private static void executeUpdate(String query) {
         try (Connection connection = DatabaseManager.getConnection();
              Statement statement = connection.createStatement()) {
