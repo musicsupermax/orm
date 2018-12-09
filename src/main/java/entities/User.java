@@ -14,7 +14,7 @@ public class User {
     @Column(name = "login", type = "varchar(50)")
     private String login;
 
-    @Column(name = "age", type = "int")
+    @Column(name = "age ", type = "int")
     private int age;
 
     public User() {
