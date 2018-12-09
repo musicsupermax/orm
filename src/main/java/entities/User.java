@@ -8,7 +8,7 @@ import annotations.Table;
 public class User {
 
     @Id
-    @Column(name = "id", type = "int", isAutoIncrement = true)
+    @Column(name = " id", type = "int", isAutoIncrement = true)
     private int id;
 
     @Column(name = "login", type = "varchar(50)")
